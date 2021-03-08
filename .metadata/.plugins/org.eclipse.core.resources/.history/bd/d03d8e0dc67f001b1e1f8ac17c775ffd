@@ -1,0 +1,42 @@
+package br.com.daniel.mvc.logica;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.daniel.jdbc.dao.PessoaDao;
+import br.com.daniel.jdbc.modelo.Pessoa;
+
+public class AlteraPessoaLogica implements Logica {
+
+	@Override
+	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		PessoaDao dao = new PessoaDao();
+		Pessoa pessoa = new Pessoa();
+		
+		String cpf = request.getParameter("cpf");
+		String nome = request.getParameter("nome");
+		String email = request.getParameter("email");
+		String dataNascimento = request.getParameter("dataNascimento");
+		String sexo = request.getParameter("sexo");
+		String estadoCivil = request.getParameter("estadoCivil");
+		boolean ativo = Boolean.getBoolean(request.getParameter("ativo"));
+		
+		pessoa.setCpf(cpf);
+		pessoa.setNome(nome);
+		pessoa.setEmail(email);
+		pessoa.setDataNascimento(dataNascimento);
+		pessoa.setSexo(sexo);
+		pessoa.setEstadoCivil(estadoCivil);
+		pessoa.setAtivo(ativo);
+		
+		dao.altera(pessoa);
+		
+		
+		
+	}
+
+}

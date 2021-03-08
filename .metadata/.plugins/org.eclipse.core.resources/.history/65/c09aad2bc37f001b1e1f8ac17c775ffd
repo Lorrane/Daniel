@@ -1,0 +1,47 @@
+package br.com.daniel.mvc.logica;
+
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.daniel.jdbc.dao.PessoaDao;
+import br.com.daniel.jdbc.modelo.Pessoa;
+
+public class AdicionaPessoaLogica implements Logica{
+	
+	@Override
+	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String nome = 			request.getParameter("contato.name");
+		String email =			request.getParameter("email");
+		String endereco =		request.getParameter("endereco");
+		String dataEmTexto =	request.getParameter("data");
+		Calendar dataNascimento = Calendar.getInstance();
+		
+		Contato contato = new Contato();
+		PrintWriter out = response.getWriter();
+		ContatoDao dao = new ContatoDao();
+		
+		// Convertendo a data texto para data calendar
+		try {
+			Date data = new SimpleDateFormat("dd/MM/yyyy").parse(dataEmTexto);
+			dataNascimento.setTime(data);
+		}catch (Exception e) {
+			out.print("Ocorreu um erro na conversão da Data");
+		}
+		
+		contato.setNome(nome);
+		contato.setEmail(email);
+		contato.setEndereco(endereco);
+		contato.setDataNascimento(dataNascimento);
+		
+		dao.adiciona(contato);
+		
+		return "/WEB-INF/jsp/contato-adicionado.jsp";
+	}
+
+}

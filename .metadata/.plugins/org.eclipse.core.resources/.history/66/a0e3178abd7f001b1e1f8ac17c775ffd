@@ -1,0 +1,5 @@
+package br.com.daniel.jdbc.modelo;
+
+public class Pessoa {
+
+}

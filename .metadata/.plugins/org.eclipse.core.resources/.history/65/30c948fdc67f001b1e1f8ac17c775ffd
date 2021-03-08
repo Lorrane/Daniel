@@ -1,0 +1,5 @@
+package br.com.daniel.mvc.logica;
+
+public class RemovePessoaLogica {
+
+}

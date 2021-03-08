@@ -1,0 +1,22 @@
+package br.com.daniel.mvc.logica;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.daniel.jdbc.dao.PessoaDao;
+
+public class RemovePessoaLogica implements Logica {
+	
+	@Override
+	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		PessoaDao dao = new PessoaDao();
+		dao.remove(request.getParameter("cpf"));
+		
+		System.out.println("Excluindo contato...");
+		
+		return "mvc?logica=ListaPessoaLogica.jsp";
+	}
+
+}

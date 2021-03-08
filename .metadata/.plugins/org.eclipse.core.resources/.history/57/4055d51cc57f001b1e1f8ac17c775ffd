@@ -1,0 +1,69 @@
+package br.com.daniel.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.daniel.jdbc.dao.PessoaDao;
+import br.com.daniel.jdbc.modelo.Pessoa;
+
+@SuppressWarnings("serial")
+@WebServlet("/WEB-INF/jsp/adicionaPessoa")
+public class AdicionaPessoaServlet extends HttpServlet{
+	
+	String cpf, nome, email, dataNascimento, sexo, estadoCivil;
+	boolean ativo;
+	
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = response.getWriter();
+		
+		cpf 		= request.getParameter("cpf");
+		nome 		= request.getParameter("nome");
+		email		= request.getParameter("email");
+		dataNascimento	= request.getParameter("dataNascimento");
+		sexo 		= request.getParameter("sexo");
+		ativo 		= request.getParameter("ativo");
+		
+		
+		try {
+			Date data = new SimpleDateFormat("dd/MM/yyyy")
+					.parse(dataEmTexto);
+			dataNascimento = Calendar.getInstance();
+			dataNascimento.setTime(data);
+		}catch (ParseException e) {
+			/*enviando um erro para cair na pagina de erro personalizada*/
+			//throw new ServletException(e); 
+			
+			/* informando uma mensagem de erro na tela */
+			out.println("Erro na conversão da data");
+			return;
+		}
+		
+		//configuração de montagem de model e gravação no banco chamando dao
+		Contato contato = new Contato();
+		contato.setNome(nome);
+		contato.setEmail(email);
+		contato.setEndereco(endereco);
+		contato.setDataNascimento(dataNascimento);
+		
+		ContatoDao dao = new ContatoDao();
+		dao.adiciona(contato);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/contato-adicionado.jsp");
+		rd.forward(request, response);
+		
+	}
+
+}

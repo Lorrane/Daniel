@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+C:\Users\lmachado\OneDrive - ANP\Documentos\Daniel\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+13531988.index
+11377046.index
+1136952202.index
+731730118.index
+1798049422.index
+1631978279.index
+908250664.index

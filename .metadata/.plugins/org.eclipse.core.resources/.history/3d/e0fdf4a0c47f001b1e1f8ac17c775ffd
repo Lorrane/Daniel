@@ -1,0 +1,66 @@
+package br.com.daniel.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.daniel.jdbc.dao.PessoaDao;
+import br.com.daniel.jdbc.modelo.Pessoa;
+
+@SuppressWarnings("serial")
+@WebServlet("/WEB-INF/jsp/adicionaContato")
+public class AdicionaPessoaServlet extends HttpServlet{
+	
+	String nome, email, endereco, dataEmTexto;
+	Calendar dataNascimento;
+	
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = response.getWriter();
+		
+		nome 		= request.getParameter("nome");
+		email		= request.getParameter("email");
+		endereco	= request.getParameter("endereco");
+		dataEmTexto	= request.getParameter("dataNascimento");
+		
+		try {
+			Date data = new SimpleDateFormat("dd/MM/yyyy")
+					.parse(dataEmTexto);
+			dataNascimento = Calendar.getInstance();
+			dataNascimento.setTime(data);
+		}catch (ParseException e) {
+			/*enviando um erro para cair na pagina de erro personalizada*/
+			//throw new ServletException(e); 
+			
+			/* informando uma mensagem de erro na tela */
+			out.println("Erro na conversão da data");
+			return;
+		}
+		
+		//configuração de montagem de model e gravação no banco chamando dao
+		Contato contato = new Contato();
+		contato.setNome(nome);
+		contato.setEmail(email);
+		contato.setEndereco(endereco);
+		contato.setDataNascimento(dataNascimento);
+		
+		ContatoDao dao = new ContatoDao();
+		dao.adiciona(contato);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/contato-adicionado.jsp");
+		rd.forward(request, response);
+		
+	}
+
+}

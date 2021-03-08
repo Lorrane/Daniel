@@ -1,0 +1,80 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="css/jquery.css" rel="stylesheet">
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<title>Adicionar Contato - Agenda</title>
+</head>
+<body>
+	<c:import url="cabecalho.jsp" />
+	<div class="container">
+		<h3>Cadastro de contato</h3>
+		<hr />
+		<form class="form-horizontal" action="/mvc?logica=AlteraPessoaLogica&pessoa=${pessoa}">
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>CPF:</label> 
+					<input required="required" type="text" class="form-control" name="${pessoa.cpf}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Nome:</label> 
+					<input required="required" type="text" class="form-control" name="${pessoa.nome}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Email:</label>
+					<input required="required" class="form-control" maxlength="50" name="${pessoa.email}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Sexo:</label>
+					<div class="form-check">
+						<input type="radio" id="${pessoa.sexo} value="Masculino" class="form-check-input" name="sexo" checked>
+						<label for="Masculino" class="form-check-label">Masculino &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<input type="radio" id="${pessoa.sexo} value="Feminino" class="form-check-input" name="sexo">
+						<label for="Feminino" class="form-check-label">Feminino</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Estado Civil:</label>
+					<select class="form-control" name="${pessoa.estadoCivil}" required>
+						<option value="Solteiro">Solteiro(a)</option>
+						<option value="Casado">Casado(a)</option>
+						<option value="Divorciado">Divorciado(a)</option>
+						<option value="Viuvo">Viuvo(a)</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Data de Nascimento:</label>
+					<input required="required" class="form-control" maxlength="20" name="${pessoa.dataNascimento}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Ativo:</label>
+					<input type="checkbox" name="${pessoa.ativo}">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Alterar</button>		
+		</form>
+	</div>
+	<c:import url="rodape.jsp" />
+
+	<!--   Chamada de Javascript do bootstrap sempre ao final da pagina   -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

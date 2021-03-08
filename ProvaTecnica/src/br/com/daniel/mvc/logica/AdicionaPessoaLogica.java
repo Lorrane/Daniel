@@ -1,0 +1,45 @@
+package br.com.daniel.mvc.logica;
+
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.daniel.jdbc.dao.PessoaDao;
+import br.com.daniel.jdbc.modelo.Pessoa;
+
+public class AdicionaPessoaLogica implements Logica{
+	
+	@Override
+	public String executa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String cpf = 			request.getParameter("pessoa.cpf");
+		String nome = 			request.getParameter("pessoa.name");
+		String email =			request.getParameter("pessoa.email");
+		String dataNascimento =	request.getParameter("pessoa.dataNascimento");
+		String sexo = 			request.getParameter("sexo");
+		String estadoCivil = 	request.getParameter("pessoa.estadoCivil");
+		boolean ativo =		Boolean.getBoolean(request.getParameter("pessoa.ativo"));
+		
+		
+		Pessoa pessoa = new Pessoa();
+		PrintWriter out = response.getWriter();
+		PessoaDao dao = new PessoaDao();
+		
+		pessoa.setCpf(cpf);
+		pessoa.setNome(nome);
+		pessoa.setEmail(email);
+		pessoa.setDataNascimento(dataNascimento);
+		pessoa.setSexo(sexo);
+		pessoa.setEstadoCivil(estadoCivil);
+		pessoa.setAtivo(ativo);
+		
+		dao.adiciona(pessoa);
+		
+		return "/WEB-INF/jsp/pessoa-adicionada.jsp";
+	}
+
+}

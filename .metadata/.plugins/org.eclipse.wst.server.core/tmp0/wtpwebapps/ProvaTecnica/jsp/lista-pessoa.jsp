@@ -1,0 +1,133 @@
+<%@ page 
+	language="java" 
+	contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" 
+    import="java.util.*, 
+    	java.text.SimpleDateFormat,
+    	br.com.daniel.jdbc.dao.*, 
+    	br.com.daniel.jdbc.modelo.*"
+%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<title>Listagem das Pessoas</title>
+</head>
+<body>
+	<div class="container">
+		<h3>Listagem das Pessoas</h3>
+		<hr />	
+
+		
+		<table>
+			<tr>
+				<td>CPF</td>
+				<td>Nome</td>
+				<td>Email</td>
+				<td>Sexo</td>
+				<td>Estado Civil</td>
+				<td>Data de Nascimento</td>
+				<td>Ativo?</td>
+			</tr>
+			<%-- Exibição da lista não utilizando JSTL 
+			<%
+				PessoaDao dao = new PessoaDao();
+				List<Pessoa> pessoas = dao.getLista();
+			
+				for(Pessoa pessoa:pessoas){
+			%>
+			<tr>
+				<td><%=pessoa.getCpf() %></td>
+				<td><%=pessoa.getNome() %></td>
+				<td><%=pessoa.getEmail() %></td>
+				<td><%=pessoa.getDataNascimento() %></td>
+				<td><%=pessoa.getSexo() %></td>
+				<td><%=pessoa.getEstadoCivil() %></td>
+				<td><%=pessoa.isAtivo() %></td>
+			</tr>
+			<% } --%>
+			
+			
+			<c:forEach var="pessoa" items="${pessoa}">
+				<tr>
+					<td>${pessoa.cpf}</td>
+					<td>${pessoa.nome}</td>
+					
+					<%-- email com if 
+					<td>
+						<c:if test="${not empty contato.email }">
+							<a href="mailto:${contato.email}">${contato.email}</a>
+						</c:if>
+						
+						<c:if test="${empty contato.email}">
+							Email não informado
+						</c:if>
+					</td> --%>
+					
+					<td>
+					<%-- Email com Choose --%>
+						<c:choose>
+							<c:when test="${not empty contato.email}">
+								<a href="mailto:${contato.email}">${contato.email}</a>
+							</c:when>
+							<c:otherwise>Email não informado</c:otherwise>
+						</c:choose>
+					</td>
+					<td>${pessoa.sexo}</td>
+					<td>${pessoa.estadoCivil}</td>
+					<td>${pessoa.dataNascimento}</td>
+					<td>${pessoa.ativo}</td>
+					<td>
+						<a href="mvc?logica=MostraPessoaLogica&cpf=${pessoa.cpf}">
+							Alterar
+						</a>
+					</td>
+					<td>
+						<a href="mvc?logica=RemovePessoaLogica&cpf=${pessoa.cpf}">
+							Remover
+						</a>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+	
+		<%-- listagem com cards usando front 
+		<%
+			ContatoDao dao = new ContatoDao();
+			List<Contato> contatos = dao.getLista();
+			String data;
+			
+			for(Contato contato:contatos){
+				data = contato.getDataNascimento().getTime().toString();
+		%> 
+		<div class="card bg-light mb-3">
+			<div class="card-header font-weight-bold">
+				<%=contato.getNome() %>
+			</div>
+			<div class="card-body"> 
+				<div class="card-text"><%=contato.getEmail() %></div>
+				<div class="card-text"><%=contato.getEndereco() %></div>
+				<div class="card-text"><% new SimpleDateFormat("dd/MM/yyyy").parse(data); %></div>
+			</div>
+			<div class="card-footer bg-light" >
+				<p>
+					<a href="mvc?logica=AlteraContatoLogic&id=${contato.id}" class="btn btn-light">Alterar</a>
+				</p>
+				<p>
+					<a href="mvc?logica=RemoveContatoLogic&id=${contato.id}" class="btn btn-light">Remover</a>
+				</p>
+			</div>
+		</div>
+		<% } %>
+		--%>	
+	</div>
+	
+	<%-- chamada de script no final da pagina --%>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
